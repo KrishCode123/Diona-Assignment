@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worker Progress Report</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
+</head>
+
+<body>
+  <div class="report-container">
+    <header class="report-header">
+      <div class="header-top">
+        <div class="logo-placeholder">
+          <div class="logo-box">
+            <img src="./Image.png" alt="" style="height: 100px; width: 200px; margin-left: 100px;">
+          </div>
+        </div>
+        <div class="contact-info">
+          <p>333 Broadway, <br> Winnipeg, MB R3C 4W3</p>
+          <p>Phone: (204) 954-4321  | <br> Toll Free: 1-855-954-4321</p>
+          <p>wcb.mb.ca</p>
+        </div>
+      </div>
+      <div class="main-heading">
+        <div class="heading">Worker Progress Report</div>
+      
+        <div class="claim-row">
+          <div class="claim-box">Claim No. 20042047</div>
+          <div class="wp-box">WP</div>
+        </div>
+      </div>
+    </header>
+    <p><span class="blue-text">Madeleine Willson</span> provided the following updates in relation to their claim:</p>
+
+
+    <section class="report-page" id="page-1">
+      <h2>Return to Work</h2>
+      <p>Select one:</p>
+      <div class="flex-box">
+        <label><input type="radio" name="return-status"> I have not returned to work</label>
+        <label><input type="radio" name="return-status"> I returned to work on: <input type="date"></label>
+      </div><br>
+      <p>I am Working on:</p>
+      <div class="flex-box">
+        <div class="work-hours">
+            <label><input type="radio" name="work-hours"> Full duties, regular hours</label>
+            <label><input type="radio" name="work-hours"> Full duties, reduced hours</label>
+            <label><input type="radio" name="work-hours"> Modified duties, regular hours</label>
+            <label><input type="radio" name="work-hours"> Modified duties, reduced hours</label>
+          </div>
+          <p>I expect to return to work on: <input type="date"></p>
+      </div> <br>
+      <p>My return to work is going:</p>
+      <textarea rows="2" placeholder="Terrible. Testing Testing"></textarea><br>
+      <p>I have the following concerns about returning to work:</p>
+      <textarea rows="3"></textarea>
+
+      <p>On <input type="date"> I was in contact with: <input type="text" placeholder="Name of employer contact"></p>
+
+      <h2>Recovery</h2>
+      <div class="flex-box">
+        <label><input type="radio" name="recovery-status"> I have not fully recovered from my workplace injury.</label>
+        <label><input type="radio" name="recovery-status"> I have fully recovered from my workplace injury.</label>
+      </div><br>
+
+      <p>I have provided the following comments about my recovery:</p>
+      <textarea rows="3"></textarea>
+
+      <footer>
+        <p style="text-align: left; display: flex;"><strong>Worker App ID:</strong> 712041</p>
+        <p><strong>Submitted:</strong> March 19, 2024 19:21 | Page 1 of 3</p>
+      </footer>
+      
+    </section>
+
+    <section class="report-page" id="page-2">
+      <div style="display: flex; flex-direction: row; justify-content: space-between;">
+      <p>I rate my current pain/discomfort on a scale of 1-10:</p>
+      <div class="pain-scale">
+        <label><input type="radio" name="pain" value="1">1</label>
+        <label><input type="radio" name="pain" value="2">2</label>
+        <label><input type="radio" name="pain" value="3">3</label>
+        <label><input type="radio" name="pain" value="4">4</label>
+        <label><input type="radio" name="pain" value="5">5</label>
+        <label><input type="radio" name="pain" value="6">6</label>
+        <label><input type="radio" name="pain" value="7">7</label>
+        <label><input type="radio" name="pain" value="8">8</label>
+        <label><input type="radio" name="pain" value="9">9</label>
+        <label><input type="radio" name="pain" value="10">10</label>
+      </div>
+      </div>
+
+      <p>Select one:</p>
+      <div class="flex-box">
+        <label><input type="radio" name="medical-treatment"> I am not continuing to receive medical treatment</label><br>
+        <label><input type="radio" name="medical-treatment"> I am continuing to receive treatment from:</label>
+        <input type="text" placeholder="Medical Provider">
+      </div>
+      <br>
+      <div class="flex-box">
+        <p>My last medical treatment was on <input type="date"> from <input type="text" placeholder="Provider Name"></p>
+      <p>My next medical treatment is on <input type="date"> from <input type="text" placeholder="Provider Name"></p>
+      </div><br>
+      <p>I am attending a Chiropractor or Physiotherapist: <input type="text" placeholder="Frequency"></p><br>
+
+      <p>Select one</p>
+      <div class="flex-box">
+        <label><input type="radio" name="medical-injury"> I am not taking medication for my workplace injury.</label><br>
+        <label><input type="radio" name="medical-injury"> I am taking medication for my workplace injury:</label>
+        <input type="text" placeholder="prescribed medication">
+      </div>
+      <br>
+      <p>Select one:</p>
+      <div class="flex-box">
+        <label><input type="radio" name="home-exercise"> I am not doing home exercises</label><br>
+      <label><input type="radio" name="home-exercise"> I am doing home exercises</label>
+      </div>
+      <p>List the exercises:</p>
+      <textarea rows="2"></textarea>
+
+      <h2>Other Information</h2>
+      <p>I would like to provide the following additional information:</p>
+      <textarea rows="3" placeholder="No info Testing Testing"></textarea>
+
+      <footer>
+        <p style="text-align: left; display: flex;"><strong>Worker App ID:</strong> 712041</p>
+        <p><strong>Submitted:</strong> March 19, 2024 19:21 | Page 2 of 3</p>
+      </footer>
+    </section>
+
+    <section class="report-page" id="page-3">
+            <p>
+                <input type="checkbox">
+                I certify that the information given on this form is true, correct and complete to the best of my knowledge. I agree to notify the Workers Compensation Board of Manitoba (WCB) immediately once I return to any form of work and/or employment. I understand that it is an offence to knowingly make a false statement to the WCB. I also understand that it is an offence to withhold information from WCB which affects my entitlement to compensation (e.g., full or partial recovery from injury, ability to return to work, sources of additional income, etc.). I understand that refusing to co-operate with, or follow my treatment, may result in the WCB reducing or suspending my benefits.
+            </p><br>
+        
+            <p> <input type="checkbox" name="" id="">
+                I understand that the Privacy Notice applies to the personal information collected in this document.
+            </p><br>
+        </section>
+        <footer>
+            <p style="text-align: left; display: flex;"><strong>Worker App ID:</strong> 712041</p>
+            <p><strong>Submitted:</strong> March 19, 2024 19:21 | Page 3 of 3</p>
+        </footer>
+  </div>
+</body>
+</html>
