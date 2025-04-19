@@ -1,0 +1,33 @@
+//- Header component for all WCB forms
+mixin header(formTitle, formInfo)
+  header.wcb-header
+    .logo-section
+      img.wcb-logo(src="/images/image.svg", alt="WCB Logo", onerror="this.onerror=null; this.src='/images/image.png'")
+      .wcb-address
+        | 333 Broadway
+        br
+        | Winnipeg, MB R3C 4W3
+        br
+        | Phone: (204) 954-4321
+        br
+        | Toll Free: 1-855-954-4321
+        br
+        | wcb.mb.ca
+    
+    .title-claim-section
+      //- Form title first
+      .form-title
+        h1= formTitle
+      
+      //- Claim number right below the form title
+      .form-info
+        .claim-number Claim No. #{formInfo.claimNo}
+        .wp-box WP
+        p.worker-id(style="display: none;") Worker App ID: #{formInfo.workerAppId}
+        p.submission-date(style="display: none;") Submitted: #{formInfo.submitted}
+
+//- Footer mixin to add page counter
+mixin footer(pageNumber, totalPages)
+  footer.wcb-footer
+    .page-counter Page #{pageNumber} of #{totalPages}
+    //- Add any other footer content here

@@ -1,0 +1,412 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+  }
+  
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+
+  .wcb-form {
+    background-color: #fff;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  .page {
+    position: relative;
+    min-height: 1123px; 
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    page-break-after: always;
+  }
+  
+  .page:last-child {
+    page-break-after: auto;
+  }
+  
+  /* Header styles */
+  .wcb-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #0056b3;
+  }
+  
+  /* Logo section adjustments */
+  .logo-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    min-width: 300px;
+  }
+  
+  .wcb-logo {
+    width: 220px; 
+    height: auto;
+  }
+  
+
+  .title-claim-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: auto;
+    margin-right: 10px;
+  }
+  
+  /* Form title positioning */
+  .form-title {
+    text-align: right;
+    margin-bottom: 15px;
+  }
+  
+  .form-title h1 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .form-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+  }
+  
+  .claim-number {
+    border: 2px solid #000;
+    padding: 6px 12px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .wp-box {
+    border: 2px solid #000;
+    padding: 6px 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  /* Footer with page counter */
+  .wcb-footer {
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+  }
+  
+  .page-counter {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .form-content {
+    margin-top: 20px;
+  }
+  
+  /* Section styles */
+  .form-section {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .section-header {
+    font-size: 16px;
+    color: #0056b3;
+    margin-bottom: 10px;
+  }
+  
+  .note {
+    font-size: 12px;
+    font-style: italic;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  /* Table styles */
+  .expense-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+  
+  .expense-table th {
+    background-color: #e6f0ff;
+    border: 1px solid #bbb;
+    padding: 8px;
+    text-align: left;
+    font-weight: bold;
+  }
+  
+  .expense-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  /* Form elements */
+  .form-row {
+    margin-bottom: 15px;
+  }
+  
+  .form-field {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  .form-field label {
+    min-width: 150px;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .field-value {
+    flex: 1;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+  }
+  
+  /* Radio and checkbox styles */
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .radio-option, .checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  /* Pain scale */
+  .pain-scale {
+    margin: 15px 0;
+  }
+  
+  .pain-scale p {
+    margin-bottom: 10px;
+  }
+  
+  .pain-scale-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .pain-option {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+  }
+  
+  /* Certification section */
+  .certification-text {
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: justify;
+  }
+  
+  /* Footer styles */
+  .wcb-footer {
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+  }
+  
+  .page-break {
+    height: 20px; 
+  }
+  
+  .dataset-navigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #0056b3;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+  }
+  
+  .current-dataset {
+    font-weight: bold;
+  }
+  
+  .nav-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .nav-button, .print-button {
+    padding: 8px 15px;
+    background-color: #004494;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  
+  .nav-button:hover, .print-button:hover {
+    background-color: #003366;
+  }
+  
+
+  .index-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .index-page h1 {
+    text-align: center;
+    color: #0056b3;
+    margin-bottom: 30px;
+  }
+  
+  .form-links {
+    margin-bottom: 30px;
+  }
+  
+  .form-links h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .dataset-links {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .form-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0056b3;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+  
+  .form-link:hover {
+    background-color: #003d82;
+  }
+  
+  .instructions {
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #f0f7ff;
+    border-radius: 4px;
+    border-left: 4px solid #0056b3;
+  }
+  
+  .instructions h3 {
+    margin-bottom: 10px;
+    color: #0056b3;
+  }
+  
+  .instructions p {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+.error-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .error-container h1 {
+    color: #d32f2f;
+    margin-bottom: 20px;
+  }
+  
+  .error-container h2 {
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .error-container a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0056b3;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 20px;
+  }
+  
+  .error-container a:hover {
+    background-color: #003d82;
+  }
+  
+  .error-stack {
+    text-align: left;
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 14px;
+    margin: 20px 0;
+  }
+
+  .wcb-logo {
+    min-width: 300px;
+    height: auto;
+  }
+  
+  .wcb-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .logo-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }

@@ -1,0 +1,136 @@
+extends layout
+
+include mixins/header
+include mixins/form-elements
+include mixins/footer
+
+block content
+  .wcb-form.progress-report-form
+    //- Page 1
+    .page
+      +header(title, data.formInfo)
+
+      
+      .form-content
+        p #{data.workerInfo.name} provided the following updates in relation to their claim:
+        
+        //- Return to Work Section
+        +section('Return to Work', 'return-to-work')
+          .form-row
+            +radioGroup('returnStatus', [
+              'I have not returned to work',
+              'I returned to work on:',
+              'I have not missed time from work'
+            ], data.returnToWork.status)
+          
+          if data.returnToWork.status === 'I returned to work on:'
+            .form-row
+              +textField('Date', data.returnToWork.returnDate, 'date-field')
+              +radioGroup('workType', [
+                'Full duties, regular hours',
+                'Full duties, reduced hours',
+                'Modified duties, regular hours',
+                'Modified duties, reduced hours',
+                'Other:'
+              ], data.returnToWork.workType)
+              +textField('I am working:', data.returnToWork.currentlyWorking, 'working-field')
+          
+          if data.returnToWork.status === 'I have not returned to work'
+            .form-row
+              +textField('I expect to return to work on:', data.returnToWork.expectedReturnDate, 'date-field')
+          
+          .form-row
+            +textField('My return to work is going:', data.returnToWork.concerns, 'concerns-field')
+          
+          .form-row
+            +textField('I was most recently in contact with:', data.returnToWork.employerContact.name, 'contact-field')
+            +textField('on', data.returnToWork.employerContact.contactDate, 'date-field')
+    
+        //- Recovery Section
+        +section('Recovery', 'recovery')
+          .form-row
+            +radioGroup('recoveryStatus', [
+              'I have not fully recovered from my workplace injury.',
+              'I have fully recovered from my workplace injury.'
+            ], data.recovery.status)
+          
+          .form-row
+            +painScale(data.recovery.painLevel)
+          
+          if data.recovery.comments
+            .form-row
+              +textField('I have provided the following comments about my recovery:', data.recovery.comments, 'comments-field')
+    
+    //- Page 2
+    .page
+      +header(title, data.formInfo)
+
+      
+      .form-content
+        //- Medical Treatment Section
+        +section('', 'medical-treatment')
+          .form-row
+            +radioGroup('treatmentStatus', [
+              'I am not continuing to receive medical treatment for my workplace injury.',
+              'I am continuing to receive medical treatment for my workplace injury from:'
+            ], data.medicalTreatment.continuing)
+          
+          if data.medicalTreatment.continuing === 'I am continuing to receive medical treatment for my workplace injury from:'
+            .form-row
+              +textField('Medical Provider Type', data.medicalTreatment.providerType, 'provider-field')
+          
+          .form-row
+            +textField('My last medical treatment was', data.medicalTreatment.lastTreatment.date, 'date-field')
+            +textField('from', data.medicalTreatment.lastTreatment.providerName, 'provider-field')
+          
+          .form-row
+            +textField('My next medical treatment is', data.medicalTreatment.nextTreatment.date, 'date-field')
+            +textField('from', data.medicalTreatment.nextTreatment.providerName, 'provider-field')
+          
+          if data.medicalTreatment.attendingSpecialist
+            .form-row
+              +textField(data.medicalTreatment.attendingSpecialist, data.medicalTreatment.frequency, 'frequency-field')
+        
+        //- Medication Section
+        +section('', 'medication')
+          .form-row
+            +radioGroup('medicationStatus', [
+              'I am not taking medication for my workplace injury.',
+              'I am taking medication for my workplace injury:'
+            ], data.medication.taking)
+          
+          if data.medication.taking === 'I am taking medication for my workplace injury:'
+            .form-row
+              +textField('Name of prescribed medication', data.medication.medicationName, 'medication-field')
+        
+        //- Home Exercises Section
+        +section('', 'home-exercises')
+          .form-row
+            +radioGroup('exerciseStatus', [
+              'I am not doing home exercises for my workplace injury.',
+              'I am doing home exercises for my workplace injury.'
+            ], data.homeExercises.doing)
+          
+          if data.homeExercises.doing === 'I am doing home exercises for my workplace injury.'
+            .form-row
+              +textField('List the exercises you are doing:', data.homeExercises.exercises, 'exercises-field')
+        
+        //- Additional Information Section
+        +section('Other Information', 'additional-info')
+          .form-row
+            +textField('I would like to provide the following additional information about my claim/injury:', data.additionalInfo, 'additional-info-field')
+    
+    //- Page 3
+    .page
+      +header(title, data.formInfo)
+      
+      .form-content
+        //- Certification Statement
+        +section('', 'certification')
+          //- Add checkboxes
+          .form-row
+            +checkbox('certifyInfoCorrect', 'I certify that the information given on this form is true, correct and complete to the best of my knowledge. I agree to notify the Workers Compensation Board of Manitoba (WCB) immediately once I return to any form of work and/or employment. I understand that it is an offence to knowingly make a false statement to the WCB. I also understand that it is an offence to withhold information from WCB which affects my entitlement to compensation (e.g., full or partial recovery from injury, ability to return to work, sources of additional income, etc.). ', data.certifyInfoCorrect)
+          .form-row
+            +checkbox('allowRecordsShare', 'I understand that refusing to co-operate with, or follow my treatment, may result in the WCB reducing or suspending my benefits.', data.allowRecordsShare)
+
+      +footer()

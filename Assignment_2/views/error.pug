@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  .error-container
+    h1= message || 'An error occurred'
+    if error && error.status
+      h2= error.status
+    if error && error.stack && process.env.NODE_ENV === 'development'
+      pre.error-stack= error.stack
+    
+    p
+      a(href="/") Return to home page

@@ -1,0 +1,20 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= title ? `${title} - WCB Manitoba` : 'WCB Manitoba Forms'
+    link(rel="stylesheet", href="/css/styles.css")
+    link(rel="stylesheet", href="/css/print.css", media="print")
+  body
+    .container
+      block content
+      
+    //- Navigation between datasets (only visible on screen, not in print)
+    if dataset
+      .dataset-navigation
+        p.current-dataset Current Dataset: #{dataset}
+        .nav-buttons
+          a.nav-button(href=`/${title.toLowerCase().replace(/[&\s]+/g, '-')}-1`) Dataset 1
+          a.nav-button(href=`/${title.toLowerCase().replace(/[&\s]+/g, '-')}-2`) Dataset 2
+          button.print-button(onclick="window.print()") Print Form

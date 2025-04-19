@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  .index-page
+    h1 Assignment 2
+    
+    .form-links
+      h2 Medical & Travel Expense Request
+      .dataset-links
+        a.form-link(href="/medical-expense-1") Dataset 1
+        a.form-link(href="/medical-expense-2") Dataset 2
+    
+    .form-links
+      h2 Worker Progress Report
+      .dataset-links
+        a.form-link(href="/progress-report-1") Dataset 1
+        a.form-link(href="/progress-report-2") Dataset 2
+    
+    .instructions
+      h3 Instructions
+      p These forms are rendered using Pug templates and simulate data coming from a backend system.
+      p Click on any of the links above to view a form with different datasets.
+      p Use the dataset navigation at the bottom of each form to switch between datasets.
+      p Click the "Print Form" button to print the form to PDF (A4 size).

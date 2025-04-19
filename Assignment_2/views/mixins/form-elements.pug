@@ -1,0 +1,62 @@
+
+mixin dataTable(headers, data, className)
+  table(class=className)
+    thead
+      tr
+        each header in headers
+          th= header
+    tbody
+      each row in data
+        tr
+          each value, key in row
+            td= value
+
+
+mixin sectionHeader(title)
+  h2.section-header= title
+
+
+mixin radioGroup(name, options, selected)
+  .radio-group
+    each option in options
+      label.radio-option
+        input(type="radio", name=name, value=option, checked=(selected === option))
+        span.radio-text= option
+
+
+mixin checkbox(name, label, checked)
+  label.checkbox-option
+    input(type="checkbox", name=name, checked=checked)
+    span.checkbox-text= label
+
+
+mixin painScale(selectedValue)
+  .pain-scale
+    p I rate my current pain/discomfort on a scale of 1-10, where 1 is no pain and 10 is severe pain
+    .pain-scale-options
+      - for (let i = 1; i <= 10; i++)
+        label.pain-option
+          input(type="radio", name="painScale", value=i, checked=(selectedValue === i))
+          span= i
+
+
+mixin textField(label, value, className)
+  .form-field(class=className)
+    label= label
+    span.field-value= value
+
+
+mixin pageCounter(currentPage, totalPages)
+  .page-counter Page #{currentPage} of #{totalPages}
+
+
+mixin section(title, className)
+  section(class=`form-section ${className}`)
+    if title
+      +sectionHeader(title)
+    block
+
+mixin checkbox(name, label, checked)
+  label.checkbox-option
+    input(type="checkbox", name=name, checked=checked)
+    span.checkbox-text= label

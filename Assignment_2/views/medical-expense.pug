@@ -1,0 +1,75 @@
+extends layout
+
+include mixins/header
+include mixins/form-elements
+include mixins/footer
+
+block content
+  //- Include mixins
+  
+  .wcb-form.medical-expense-form
+    //- Page 1
+    .page
+      +header(title, data.formInfo)
+      +pageCounter(1, 2)
+      
+      .form-content
+        p #{data.workerInfo.name} requested reimbursement for the following medical and/or travel expenses:
+        
+        //- Prescription Drugs Section
+        +section('Prescription Drugs', 'prescription-drugs')
+          +dataTable(
+            ['Drug Name', 'Prescription Date', 'Date Purchased', 'Healthcare Provider Name', 'Paid Amount'],
+            data.prescriptionDrugs,
+            'expense-table'
+          )
+        
+        //- Over-the-Counter Drugs Section
+        +section('Over-the-Counter Drugs', 'otc-drugs')
+          +dataTable(
+            ['Drug Name', 'Date Purchased', 'Paid Amount', 'Seller\'s Name', 'Reason for Purchasing'],
+            data.overTheCounterDrugs,
+            'expense-table'
+          )
+        
+        //- Medical Supplies Section
+        +section('Bandages, Braces or Other Medical Supplies', 'medical-supplies')
+          +dataTable(
+            ['Item Purchased', 'Date Purchased', 'Was this Prescribed?', 'Healthcare Provider Name', 'Paid Amount', 'Seller\'s Name'],
+            data.medicalSupplies,
+            'expense-table'
+          )
+        
+        //- Parking Section
+        +section('Parking for Medical Appointments', 'parking')
+          +dataTable(
+            ['Address of Healthcare Provider/Medical Facility', 'Appointment Date', 'Paid Amount', 'Meter Used?', 'Meter Number'],
+            data.parking,
+            'expense-table'
+          )
+        
+        //- Mileage Section
+        +section('Mileage to Medical Appointments', 'mileage')
+          p.note The WCB will generally reimburse only those transportation costs which are in excess of costs that would be incurred by the worker while travelling to and from work.
+          +dataTable(
+            ['Appointment Date', 'Address of Healthcare Provider/Medical Facility', 'Address of Workplace', 'Number of km (Round Trip)'],
+            data.mileage,
+            'expense-table'
+          )
+    
+    //- Page 2
+    .page
+      +header(title, data.formInfo)
+      +pageCounter(2, 2)
+      
+      .form-content
+        //- Bus or Taxi Section
+        +section('Bus or Taxi Fare for Medical Appointments', 'bus-taxi')
+          p.note *Note: Pre-approval is required from your WCB representative to claim taxi fare(s).
+          +dataTable(
+            ['Appointment Date', 'Address of Starting Point', 'Address of Healthcare Provider/Medical Facility', 'Bus or Taxi (indicate one)', 'Total Fare Paid'],
+            data.busOrTaxi,
+            'expense-table'
+          )
+      
+      +footer()
