@@ -12,9 +12,10 @@ html(lang="en")
       
     //- Navigation between datasets (only visible on screen, not in print)
     if dataset
+      - const formType = title.toLowerCase().includes('medical') ? 'medical-expense' : 'progress-report'
       .dataset-navigation
         p.current-dataset Current Dataset: #{dataset}
         .nav-buttons
-          a.nav-button(href=`/${title.toLowerCase().replace(/[&\s]+/g, '-')}-1`) Dataset 1
-          a.nav-button(href=`/${title.toLowerCase().replace(/[&\s]+/g, '-')}-2`) Dataset 2
+          a.nav-button(href=`/${formType}-1`) Dataset 1
+          a.nav-button(href=`/${formType}-2`) Dataset 2
           button.print-button(onclick="window.print()") Print Form

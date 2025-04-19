@@ -14,22 +14,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Routes
 app.use('/', indexRouter);
 
-// 404 handler - Send to the error handler
-app.use((req, res, next) => {
-  const err = new Error('Page not found');
-  err.status = 404;
-  next(err);
+// 404 handler
+app.use((req, res) => {
+  res.status(404).render('error', { message: 'Page not found' });
 });
 
 // Error handler
 app.use((err, req, res, next) => {
-  // Set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // Render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  res.status(err.status || 500).render('error', { message: err.message });
 });
 
 // Start server
