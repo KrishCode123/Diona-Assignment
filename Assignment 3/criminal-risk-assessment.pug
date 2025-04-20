@@ -7,6 +7,33 @@ html(lang="en")
     link(rel="stylesheet" href="styles.css")
     link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css")
     script.
+      // Set today's date and handle date validation
+      document.addEventListener('DOMContentLoaded', function() {
+        // Get today's date in YYYY-MM-DD format
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const formattedToday = `${year}-${month}-${day}`;
+
+        // Set max date for all date inputs to today
+        const dateInputs = document.querySelectorAll('input[type="date"]');
+        dateInputs.forEach(input => {
+          // Set max attribute to prevent future dates
+          input.max = formattedToday;
+          
+          // For the current date field and request date, set to today's date
+          if (input.name === 'date' || input.name === 'request_date') {
+            input.value = formattedToday;
+          }
+          
+          // Add event listener for date validation
+          input.addEventListener('change', function() {
+            validateDate(this);
+          });
+        });
+      });
+
       function toggleForm() {
         const consentRadio = document.querySelector('input[name="consent"]:checked');
         const mainForm = document.getElementById('mainForm');
@@ -22,9 +49,12 @@ html(lang="en")
       function validateDate(input) {
         const selectedDate = new Date(input.value);
         const today = new Date();
+        today.setHours(0, 0, 0, 0); // Reset time part for accurate date comparison
+        
         if (selectedDate > today) {
           input.setCustomValidity('Future dates are not allowed');
           showError(input, 'Future dates are not allowed');
+          input.value = ''; // Clear invalid date
         } else {
           input.setCustomValidity('');
           hideError(input);
@@ -36,12 +66,42 @@ html(lang="en")
         const newInput = document.createElement('div');
         newInput.className = 'phone-input-group';
         newInput.innerHTML = `
-          <input type="tel" name="phone[]" placeholder="Enter phone number" required>
+          <select name="country_code[]" required>
+            <option value="">Select Code</option>
+            <option value="+1">+1 (US/CA)</option>
+            <option value="+44">+44 (UK)</option>
+            <option value="+61">+61 (AU)</option>
+            <option value="+91">+91 (IN)</option>
+            <option value="+81">+81 (JP)</option>
+            <option value="+86">+86 (CN)</option>
+            <option value="+33">+33 (FR)</option>
+            <option value="+49">+49 (DE)</option>
+            <option value="+7">+7 (RU)</option>
+            <option value="+55">+55 (BR)</option>
+          </select>
+          <input type="tel" name="phone[]" placeholder="Enter phone number" required pattern="[0-9]{10}" oninput="validatePhoneNumber(this)">
           <button type="button" class="remove-phone" onclick="this.parentElement.remove()">
             <i class="fas fa-minus"></i>
           </button>
         `;
         container.appendChild(newInput);
+      }
+
+      function validatePhoneNumber(input) {
+        const countryCode = input.parentElement.querySelector('select').value;
+        const phoneNumber = input.value;
+        const phoneRegex = /^[0-9]{10}$/;
+        
+        if (!phoneRegex.test(phoneNumber)) {
+          input.setCustomValidity('Please enter a valid 10-digit phone number');
+          showError(input, 'Please enter a valid 10-digit phone number');
+        } else if (!countryCode) {
+          input.setCustomValidity('Please select a country code');
+          showError(input, 'Please select a country code');
+        } else {
+          input.setCustomValidity('');
+          hideError(input);
+        }
       }
 
       function showError(element, message) {
@@ -68,22 +128,64 @@ html(lang="en")
         }
       }
 
+      function validateLicense(input) {
+        const licenseRegex = /^[A-Z]{2}-[A-Z]{2}-[A-Z]{2}-[A-Z0-9]{6}$/;
+        if (!licenseRegex.test(input.value) && input.value !== '') {
+          input.setCustomValidity('Please enter a valid license number in format: XX-XX-XX-XXXXXX');
+          showError(input, 'Please enter a valid license number in format: XX-XX-XX-XXXXXX');
+          return false;
+        } else {
+          input.setCustomValidity('');
+          hideError(input);
+          return true;
+        }
+      }
+
+      function toggleUnconsentedFields() {
+        const unconsentedCheckbox = document.getElementById('unconsentedCheckbox');
+        const signatureInput = document.querySelector('input[name="signature"]');
+        const nameInputs = document.querySelectorAll('input[name="first_name"], input[name="last_name"]');
+        
+        if (unconsentedCheckbox.checked) {
+          signatureInput.value = '';
+          nameInputs.forEach(input => input.value = '');
+          signatureInput.disabled = true;
+          nameInputs.forEach(input => {
+            input.disabled = true;
+            input.removeAttribute('required');
+          });
+        } else {
+          signatureInput.disabled = false;
+          nameInputs.forEach(input => {
+            input.disabled = false;
+            input.setAttribute('required', '');
+          });
+        }
+      }
+
       function validateForm() {
         const form = document.getElementById('mainForm');
+        const unconsentedCheckbox = document.getElementById('unconsentedCheckbox');
+        const licenseInput = form.querySelector('input[name="dl_number"]');
         const requiredFields = form.querySelectorAll('[required]');
         let isValid = true;
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'form-error';
-        errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please fill in all required fields';
         
-        // Remove any existing error message
-        const existingError = form.querySelector('.form-error');
-        if (existingError) {
-          existingError.remove();
+        // Clear existing error messages
+        const existingErrors = form.querySelectorAll('.form-error, .alert-error');
+        existingErrors.forEach(error => error.remove());
+
+        // Validate license number format if provided
+        if (licenseInput.value && !validateLicense(licenseInput)) {
+          isValid = false;
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'alert alert-error';
+          errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please enter a valid driver\'s license number';
+          form.insertBefore(errorDiv, form.firstChild);
         }
 
+        // Validate required fields (skip disabled fields if unconsented)
         requiredFields.forEach(field => {
-          if (!field.value.trim()) {
+          if (!field.disabled && !field.value.trim()) {
             isValid = false;
             field.classList.add('error');
           } else {
@@ -91,11 +193,48 @@ html(lang="en")
           }
         });
 
+        // Validate designate phone number
+        const designatePhone = form.querySelector('input[name="designate_phone"]');
+        const designateCountryCode = form.querySelector('select[name="designate_country_code"]');
+        if (designatePhone.value && !validatePhoneWithCountryCode(designatePhone, designateCountryCode)) {
+          isValid = false;
+        }
+
         if (!isValid) {
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'form-error';
+          errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please fill in all required fields correctly';
           form.insertBefore(errorDiv, form.firstChild);
           return false;
         }
         return true;
+      }
+
+      function validatePhoneWithCountryCode(phoneInput, countryCodeSelect) {
+        const phoneRegex = /^[0-9]{10}$/;
+        if (!phoneRegex.test(phoneInput.value)) {
+          phoneInput.setCustomValidity('Please enter a valid 10-digit phone number');
+          showError(phoneInput, 'Please enter a valid 10-digit phone number');
+          return false;
+        } else if (!countryCodeSelect.value) {
+          phoneInput.setCustomValidity('Please select a country code');
+          showError(phoneInput, 'Please select a country code');
+          return false;
+        } else {
+          phoneInput.setCustomValidity('');
+          hideError(phoneInput);
+          return true;
+        }
+      }
+
+      // Auto-format license number as user types
+      function formatLicense(input) {
+        let value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        if (value.length > 2) value = value.slice(0, 2) + '-' + value.slice(2);
+        if (value.length > 5) value = value.slice(0, 5) + '-' + value.slice(5);
+        if (value.length > 8) value = value.slice(0, 8) + '-' + value.slice(8);
+        if (value.length > 15) value = value.slice(0, 15);
+        input.value = value;
       }
 
       function printForm() {
@@ -130,7 +269,7 @@ html(lang="en")
           
           .form-group
             label(for="date") Date:
-            input(type="date" name="date" required onchange="validateDate(this)")
+            input#date(type="date" name="date" required)
           
           .form-group
             label(for="signature") Signature of person being assessed:
@@ -146,7 +285,7 @@ html(lang="en")
           
           .form-group
             label.unconsented-label
-              input(type="checkbox" name="unconsented" id="unconsentedCheckbox") 
+              input(type="checkbox" name="unconsented" id="unconsentedCheckbox" onchange="toggleUnconsentedFields()") 
               | Unconsented
 
         // Personal Information Section
@@ -187,7 +326,19 @@ html(lang="en")
             label Phone Numbers:
             #phoneInputs
               .phone-input-group
-                input(type="tel" name="phone[]" placeholder="Enter phone number" required)
+                select(name="country_code[]" required)
+                  option(value="") Select Code
+                  option(value="+1") +1 (US/CA)
+                  option(value="+44") +44 (UK)
+                  option(value="+61") +61 (AU)
+                  option(value="+91") +91 (IN)
+                  option(value="+81") +81 (JP)
+                  option(value="+86") +86 (CN)
+                  option(value="+33") +33 (FR)
+                  option(value="+49") +49 (DE)
+                  option(value="+7") +7 (RU)
+                  option(value="+55") +55 (BR)
+                input(type="tel" name="phone[]" placeholder="Enter phone number" required pattern="[0-9]{10}" oninput="validatePhoneNumber(this)")
                 button(type="button" class="add-phone" onclick="addPhoneInput()")
                   i(class="fas fa-plus")
           
@@ -225,7 +376,12 @@ html(lang="en")
           
           .form-group
             label(for="dl_number") MB Driver's License Number:
-            input(type="text" name="dl_number")
+            input(type="text" name="dl_number" 
+                  placeholder="Format: XX-XX-XX-XXXXXX (e.g., PU-BL-IJ-Q068NH)" 
+                  pattern="^[A-Z]{2}-[A-Z]{2}-[A-Z]{2}-[A-Z0-9]{6}$" 
+                  oninput="formatLicense(this); validateLicense(this)" 
+                  required)
+            .hint-text Example format: PU-BL-IJ-Q068NH
 
         // Agency Information Section
         section.agency-section
@@ -249,7 +405,20 @@ html(lang="en")
           
           .form-group
             label(for="designate_phone") Designate Phone #:
-            input(type="tel" name="designate_phone" required)
+            .phone-input-group
+              select(name="designate_country_code" required)
+                option(value="") Select Code
+                option(value="+1") +1 (US/CA)
+                option(value="+44") +44 (UK)
+                option(value="+61") +61 (AU)
+                option(value="+91") +91 (IN)
+                option(value="+81") +81 (JP)
+                option(value="+86") +86 (CN)
+                option(value="+33") +33 (FR)
+                option(value="+49") +49 (DE)
+                option(value="+7") +7 (RU)
+                option(value="+55") +55 (BR)
+              input(type="tel" name="designate_phone" required pattern="[0-9]{10}" oninput="validatePhoneWithCountryCode(this, this.parentElement.querySelector('select'))")
           
           .form-group
             label(for="designate_email") Designate Email:
@@ -320,19 +489,6 @@ html(lang="en")
           document.querySelector('.identification-section').insertBefore(errorDiv, document.querySelector('.identification-section h2').nextSibling);
           setTimeout(() => errorDiv.remove(), 5000);
         }
-      });
-
-      // Phone number validation
-      const phoneInputs = document.querySelectorAll('input[name="phone[]"]');
-      phoneInputs.forEach(input => {
-        input.addEventListener('input', function() {
-          const phoneRegex = /^[\d\s,+-]+$/;
-          if (!phoneRegex.test(this.value)) {
-            this.setCustomValidity('Please enter valid phone numbers separated by commas');
-          } else {
-            this.setCustomValidity('');
-          }
-        });
       });
 
       // Email validation

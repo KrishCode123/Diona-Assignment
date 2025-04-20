@@ -1,10 +1,13 @@
 const pug = require('pug');
 const fs = require('fs');
+const path = require('path');
 
-// Compile the Pug template
-const compiledFunction = pug.compileFile('criminal-risk-assessment.pug');
-const html = compiledFunction();
+// Compile main form
+const formHtml = pug.renderFile('criminal-risk-assessment.pug');
+fs.writeFileSync('index.html', formHtml);
 
-// Write the HTML to a file
-fs.writeFileSync('index.html', html);
-console.log('Pug template compiled to HTML successfully!'); 
+// Compile thank you page
+const thankYouHtml = pug.renderFile('thank-you.pug');
+fs.writeFileSync('thank-you.html', thankYouHtml);
+
+console.log('Files compiled successfully!'); 
